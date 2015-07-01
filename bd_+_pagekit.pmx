@@ -1,0 +1,32 @@
+---
+name: bd + pagekit
+description: ''
+keywords: ''
+type: Default
+documentation: ''
+images:
+- name: orchardup_mysql_latest
+  source: orchardup/mysql:latest
+  category: db
+  type: Default
+  environment:
+  - variable: MYSQL_ROOT_PASSWORD
+    value: p@ssword
+  - variable: MYSQL_DATABASE
+    value: pagekit
+- name: marksteve_pagekit
+  source: marksteve/pagekit:latest
+  category: web tier
+  type: Default
+  expose:
+  - '80'
+  links:
+  - service: orchardup_mysql_latest
+    alias: mysql
+- name: wizardapps_ngrok
+  source: wizardapps/ngrok:latest
+  category: tunnel
+  type: Default
+  links:
+  - service: marksteve_pagekit
+    alias: APP
